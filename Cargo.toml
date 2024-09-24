@@ -1,0 +1,39 @@
+[package]
+name = "byte-transcoder"
+version = "0.0.1"
+edition = "2021"
+rust-version = "1.81"
+authors = ["Todd Everett Griffin <tgriffin115@gmail.com>"]
+repository = "https://github.com/goddtriffin/byte-transcoder-rs"
+homepage = "https://www.toddgriffin.me/"
+description = "A Rust library to transcode higher-level data types to/from bytes."
+license = "MIT"
+keywords = ["byte", "transcode", "encode", "parse", "serialize"]
+categories = [
+  "encoding",
+  "parsing",
+  "parser-implementations",
+  "compression",
+  "data-structures",
+]
+exclude = [".idea/*", ".github/*"]
+
+[lib]
+path = "src/lib.rs"
+
+[lints.rust]
+unsafe_code = { level = "forbid", priority = 0 }
+
+[lints.clippy]
+nursery = { level = "allow", priority = 1 }
+all = { level = "deny", priority = -1 }
+correctness = { level = "deny", priority = -1 }
+suspicious = { level = "deny", priority = -1 }
+style = { level = "deny", priority = -1 }
+complexity = { level = "deny", priority = -1 }
+perf = { level = "deny", priority = -1 }
+pedantic = { level = "deny", priority = -1 }
+cargo = { level = "deny", priority = -1 }
+
+[dependencies]
+uuid = "1.10.0"
