@@ -20,8 +20,11 @@ help: # Prints out help
 	@echo
 
 .PHONY: lint
-lint: ## lints the codebase using rustfmt + clippy
+lint: ## lints the codebase
 	cargo fmt
+	deno lint ./src-ts/**/*.ts
+	deno doc --lint ./src-ts/**/*.ts
+	deno fmt ./src-ts/**/*.ts
 
 .PHONY: test
 test: ## runs tests
@@ -29,8 +32,9 @@ test: ## runs tests
 	cargo check
 	cargo clippy --tests
 	cargo test
+	deno test --allow-read
 
 .PHONY: fix
-fix: ## auto-fixes cargo + clippy issues
+fix: ## auto-fixes (some) linter issues
 	cargo fix --allow-dirty
 	cargo clippy --fix --allow-dirty

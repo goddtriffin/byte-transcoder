@@ -1,17 +1,22 @@
-# byte-transcoder-rs
+# Byte Transcoder
 
-[![Version](https://img.shields.io/crates/v/byte-transcoder-rs)](https://crates.io/crates/byte-transcoder-rs)
-[![Docs](https://docs.rs/byte-transcoder-rs/badge.svg)](https://docs.rs/byte-transcoder-rs)
-[![License](https://img.shields.io/crates/l/byte-transcoder-rs)](https://crates.io/crates/byte-transcoder-rs)
+[![Version](https://img.shields.io/crates/v/byte-transcoder)](https://crates.io/crates/byte-transcoder)
+[![Docs](https://docs.rs/byte-transcoder/badge.svg)](https://docs.rs/byte-transcoder)
+[![License](https://img.shields.io/crates/l/byte-transcoder)](https://crates.io/crates/byte-transcoder)
 
-A Rust library to transcode higher-level data types to/from bytes.
+A Rust+Typescript library to transcode higher-level data types to/from bytes.
 
 ## Features
 
 ### ByteReader
 
-Wraps a byte slice and exposes easy-to-use retrieval functions for primitives
-(e.g. `u8`/`u16`/`u32`/`u64`, `String`, `Uuid`, etc).
+Wraps a byte slice (`[u8]` in Rust, `Uint8Array` in Typescript) and exposes
+easy-to-use retrieval functions for primitives (e.g. `u8`/`u16`/`u32`/`u64`,
+`string`, `uuid`, etc).
+
+### ByteWriter
+
+Typescript only. Helps write `number`s as specific primitives (e.g. `u8`/`u16`/`u32`/`u64`, `string`, `uuid`, etc).
 
 ## Examples
 
@@ -25,7 +30,7 @@ reason!**
 
 ### Feature Requests
 
-#### Support for more datatypes
+#### Support more datatypes
 
 I have only implemented the exact functions I need for the projects that I'm
 currently building. If there is anything missing that you would like to see
@@ -42,5 +47,5 @@ I'll implement it lol
 
 Made with 🤬 and 🥲 by [Todd Everett Griffin](https://www.toddgriffin.me/).
 
-`byte-transcoder-rs` is open source under the
-[MIT License](https://github.com/goddtriffin/byte-transcoder-rs/blob/main/LICENSE).
+`byte-transcoder` is open source under the
+[MIT License](https://github.com/goddtriffin/byte-transcoder/blob/main/LICENSE).
