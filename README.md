@@ -2,7 +2,6 @@
 
 [![Version](https://img.shields.io/crates/v/byte-transcoder)](https://crates.io/crates/byte-transcoder)
 [![Docs](https://docs.rs/byte-transcoder/badge.svg)](https://docs.rs/byte-transcoder)
-[![License](https://img.shields.io/crates/l/byte-transcoder)](https://crates.io/crates/byte-transcoder)
 
 [![JSR](https://jsr.io/badges/@todd/byte-transcoder)](https://jsr.io/@todd/byte-transcoder)
 [![JSR Score](https://jsr.io/badges/@todd/byte-transcoder/score)](https://jsr.io/@todd/byte-transcoder)
@@ -23,7 +22,62 @@ Typescript only. Helps write `number`s as specific primitives (e.g. `u8`/`u16`/`
 
 ## Examples
 
-Read `tests/` to learn how to use!
+Read `examples/`, `tests/`, and `src-ts/**/*.test.ts` for more examples!
+
+### ByteReader
+
+#### Typescript
+
+```typescript
+type Payload = { gameId: string; joinCode: string };
+
+const bytes = new Uint8Array([
+  // <your binary data>
+]);
+const byteReader = new ByteReader(bytes);
+
+const payload: Payload = {
+  gameId: byteReader.readUuid(),
+  joinCode: byteReader.readString()
+};
+```
+
+#### Rust
+
+```rust
+struct Payload {
+    game_id: Uuid,
+    join_code: String,
+}
+
+let bytes: Vec<u8> = vec![
+  // <your binary data>
+];
+let mut byte_reader = ByteReader::new(bytes);
+
+let payload = Payload {
+  game_id: byte_reader.read_uuid()?,
+  join_code: byte_reader.read_string()?,
+}
+```
+
+### ByteWriter
+
+#### Typescript
+
+```typescript
+type Payload = { gameId: string; joinCode: string };
+const payload: Payload = {
+  gameId: "24399a6c-c4a9-4053-9b2d-4199107fb567",
+  joinCode: "12345"
+};
+
+const byteWriter = new ByteWriter();
+byteWriter.writeUuid(payload.gameId);
+byteWriter.writeString(payload.joinCode);
+
+const bytes: Uint8Array = byteWriter.getBytes();
+```
 
 ## Developers
 
