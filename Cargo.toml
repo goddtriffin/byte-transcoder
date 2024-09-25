@@ -16,7 +16,7 @@ categories = [
   "compression",
   "data-structures",
 ]
-exclude = [".idea/*", ".github/*"]
+include = ["**/*.rs", "Cargo.toml", ".clippy.toml", "LICENSE", "README.md"]
 
 [lib]
 path = "src/lib.rs"
