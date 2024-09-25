@@ -4,6 +4,9 @@
 [![Docs](https://docs.rs/byte-transcoder/badge.svg)](https://docs.rs/byte-transcoder)
 [![License](https://img.shields.io/crates/l/byte-transcoder)](https://crates.io/crates/byte-transcoder)
 
+[![JSR](https://jsr.io/badges/@todd/byte-transcoder)](https://jsr.io/@todd/byte-transcoder)
+[![JSR Score](https://jsr.io/badges/@todd/byte-transcoder/score)](https://jsr.io/@todd/byte-transcoder)
+
 A Rust+Typescript library to transcode higher-level data types to/from bytes.
 
 ## Features
