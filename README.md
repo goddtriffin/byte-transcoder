@@ -103,6 +103,3 @@ I'll implement it lol
 ## Credits
 
 Made with 🤬 and 🥲 by [Todd Everett Griffin](https://www.toddgriffin.me/).
-
-`byte-transcoder` is open source under the
-[MIT License](https://github.com/goddtriffin/byte-transcoder/blob/main/LICENSE).
