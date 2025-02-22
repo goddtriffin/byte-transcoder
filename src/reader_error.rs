@@ -26,14 +26,10 @@ impl fmt::Display for ByteReaderError {
                 f,
                 "Attempted to read past the end of the buffer. Index Offset: '{index_offset}', Buffer Length: '{buffer_length}'.",
             ),
-            ByteReaderError::SliceConversionFailure => write!(
-                f,
-                "Failed to convert slice to a fixed-size array."
-            ),
-            ByteReaderError::InvalidUtf8 => write!(
-                f,
-                "Attempted to read invalid UTF-8 bytes."
-            ),
+            ByteReaderError::SliceConversionFailure => {
+                write!(f, "Failed to convert slice to a fixed-size array.")
+            }
+            ByteReaderError::InvalidUtf8 => write!(f, "Attempted to read invalid UTF-8 bytes."),
         }
     }
 }
