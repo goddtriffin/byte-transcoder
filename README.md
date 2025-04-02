@@ -10,15 +10,26 @@ A Rust+Typescript library to transcode higher-level data types to/from bytes.
 
 ## Features
 
+Supported data types:
+- `u8`/`u16`/`u32`/`u64`
+- `i8`/`i16`/`i32`/`i64`
+- `string`
+- `uuid`
+
 ### ByteReader
 
 Wraps a byte slice (`[u8]` in Rust, `Uint8Array` in Typescript) and exposes
-easy-to-use retrieval functions for primitives (e.g. `u8`/`u16`/`u32`/`u64`,
-`string`, `uuid`, etc).
+easy-to-use retrieval functions for primitives.
+
+Can manually specify endianness.
 
 ### ByteWriter
 
-Typescript only. Helps write `number`s as specific primitives (e.g. `u8`/`u16`/`u32`/`u64`, `string`, `uuid`, etc).
+Typescript only.
+
+Helps write primitives to a `Uint8Array`.
+
+Can manually specify endianness.
 
 ## Examples
 
@@ -78,6 +89,10 @@ byteWriter.writeString(payload.joinCode);
 
 const bytes: Uint8Array = byteWriter.getBytes();
 ```
+
+#### Rust
+
+There is no need for a Rust version of `ByteWriter` as integers types already have `.to_le_bytes()` and `.to_be_bytes()` (and `.to_ne_bytes()`).
 
 ## Developers
 
