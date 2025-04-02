@@ -1,6 +1,6 @@
 [package]
 name = "byte-transcoder"
-version = "0.0.3"
+version = "0.0.4"
 edition = "2024"
 rust-version = "1.85"
 authors = ["Todd Everett Griffin <tgriffin115@gmail.com>"]
@@ -36,4 +36,4 @@ pedantic = { level = "deny", priority = -1 }
 cargo = { level = "deny", priority = -1 }
 
 [dependencies]
-uuid = "1.14.0"
+uuid = "1.16.0"

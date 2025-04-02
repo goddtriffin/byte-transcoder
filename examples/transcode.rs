@@ -1,4 +1,4 @@
-use byte_transcoder::{reader::ByteReader, reader_error::ByteReaderResult};
+use byte_transcoder::{endian::Endian, reader::ByteReader, reader_error::ByteReaderResult};
 use uuid::Uuid;
 
 #[allow(dead_code)]
@@ -40,7 +40,7 @@ fn main() -> ByteReaderResult<()> {
         4, 84, 111, 100, 100,
     ];
 
-    let mut byte_reader: ByteReader = ByteReader::new(&bytes);
+    let mut byte_reader: ByteReader = ByteReader::new(&bytes, Endian::Little);
 
     let game_id: Uuid = byte_reader.read_uuid()?;
     let join_code: String = byte_reader.read_string()?;

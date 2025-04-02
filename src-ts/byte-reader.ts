@@ -1,18 +1,21 @@
 import { validate } from "@std/uuid";
+import { Endian } from "./endian.ts";
 
 /**
  * Reads bytes from a Uint8Array.
  */
-export default class ByteReader {
+export class ByteReader {
   private data: Uint8Array;
   private position: number;
+  private endian: Endian;
 
   /**
-   * Wraps a Uint8Array to read from.
+   * Reads bytes from a Uint8Array.
    */
-  constructor(data: Uint8Array) {
+  constructor(data: Uint8Array, endian: Endian) {
     this.data = data;
     this.position = 0;
+    this.endian = endian;
   }
 
   /**
@@ -27,16 +30,42 @@ export default class ByteReader {
   }
 
   /**
-   * Reads the next two bytes as a little-endian unsigned 16-bit integer.
+   * Reads the next byte as a signed 8-bit integer.
+   */
+  public readI8(): number {
+    if (this.position >= this.data.length) {
+      throw new Error("End of buffer");
+    }
+
+    const value = this.data[this.position++];
+    return value > 127 ? value - 256 : value;
+  }
+
+  /**
+   * Reads the next two bytes as an unsigned 16-bit integer.
    */
   public readU16(): number {
     if (this.position + 2 > this.data.length) {
       throw new Error("Not enough bytes to read u16");
     }
 
-    const value: number = this.data[this.position] | (this.data[this.position + 1] << 8);
+    const value = this.endian === Endian.Little
+      ? this.data[this.position] | (this.data[this.position + 1] << 8)
+      : (this.data[this.position] << 8) | this.data[this.position + 1];
     this.position += 2;
     return value;
+  }
+
+  /**
+   * Reads the next two bytes as a signed 16-bit integer.
+   */
+  public readI16(): number {
+    if (this.position + 2 > this.data.length) {
+      throw new Error("Not enough bytes to read i16");
+    }
+
+    const value = this.readU16();
+    return value > 32767 ? value - 65536 : value;
   }
 
   /**
@@ -47,25 +76,54 @@ export default class ByteReader {
       throw new Error("Not enough bytes to read u32");
     }
 
-    const value: number = this.data[this.position] |
-      (this.data[this.position + 1] << 8) |
-      (this.data[this.position + 2] << 16) |
-      (this.data[this.position + 3] << 24);
+    const value = this.endian === Endian.Little
+      ? this.data[this.position] |
+        (this.data[this.position + 1] << 8) |
+        (this.data[this.position + 2] << 16) |
+        (this.data[this.position + 3] << 24)
+      : (this.data[this.position] << 24) |
+        (this.data[this.position + 1] << 16) |
+        (this.data[this.position + 2] << 8) |
+        this.data[this.position + 3];
     this.position += 4;
-    return value >>> 0; // Convert to unsigned 32-bit integer
+    return value >>> 0;
   }
 
   /**
-   * Reads the next eight bytes as a little-endian unsigned 64-bit integer.
+   * Reads the next four bytes as a signed 32-bit integer.
+   */
+  public readI32(): number {
+    if (this.position + 4 > this.data.length) {
+      throw new Error("Not enough bytes to read i32");
+    }
+
+    const value = this.readU32();
+    return value > 2147483647 ? value - 4294967296 : value;
+  }
+
+  /**
+   * Reads the next eight bytes as an unsigned 64-bit integer.
    */
   public readU64(): bigint {
     if (this.position + 8 > this.data.length) {
       throw new Error("Not enough bytes to read u64");
     }
 
-    const low: bigint = BigInt(this.readU32());
-    const high: bigint = BigInt(this.readU32());
-    return (high << 32n) | low;
+    const low = BigInt(this.readU32());
+    const high = BigInt(this.readU32());
+    return this.endian === Endian.Little ? (high << 32n) | low : (low << 32n) | high;
+  }
+
+  /**
+   * Reads the next eight bytes as a signed 64-bit integer.
+   */
+  public readI64(): bigint {
+    if (this.position + 8 > this.data.length) {
+      throw new Error("Not enough bytes to read i64");
+    }
+
+    const value = this.readU64();
+    return value > 9223372036854775807n ? value - 18446744073709551616n : value;
   }
 
   /**

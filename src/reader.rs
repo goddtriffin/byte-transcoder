@@ -1,18 +1,26 @@
 use std::convert::TryInto;
 use uuid::Uuid;
 
-use crate::reader_error::{ByteReaderError, ByteReaderResult};
+use crate::{
+    endian::Endian,
+    reader_error::{ByteReaderError, ByteReaderResult},
+};
 
 #[expect(clippy::module_name_repetitions)]
 pub struct ByteReader<'a> {
     data: &'a [u8],
     index: usize,
+    endian: Endian,
 }
 
 impl<'a> ByteReader<'a> {
     #[must_use]
-    pub fn new(data: &'a [u8]) -> Self {
-        ByteReader { data, index: 0 }
+    pub fn new(data: &'a [u8], endian: Endian) -> Self {
+        ByteReader {
+            data,
+            index: 0,
+            endian,
+        }
     }
 
     /// # Errors
@@ -26,7 +34,29 @@ impl<'a> ByteReader<'a> {
             });
         }
 
-        let value: u8 = self.data[self.index];
+        let value: u8 = match self.endian {
+            Endian::Little => u8::from_le_bytes([self.data[self.index]]),
+            Endian::Big => u8::from_be_bytes([self.data[self.index]]),
+        };
+        self.index += 1;
+        Ok(value)
+    }
+
+    /// # Errors
+    ///
+    /// Will return an error if there are not enough bytes to read.
+    pub fn read_i8(&mut self) -> ByteReaderResult<i8> {
+        if self.index >= self.data.len() {
+            return Err(ByteReaderError::NotEnoughBytes {
+                index_offset: self.index,
+                buffer_length: self.data.len(),
+            });
+        }
+
+        let value: i8 = match self.endian {
+            Endian::Little => i8::from_le_bytes([self.data[self.index]]),
+            Endian::Big => i8::from_be_bytes([self.data[self.index]]),
+        };
         self.index += 1;
         Ok(value)
     }
@@ -46,7 +76,33 @@ impl<'a> ByteReader<'a> {
         let u16_bytes: [u8; 2] = self.data[self.index..index_offset]
             .try_into()
             .map_err(|_| ByteReaderError::SliceConversionFailure)?;
-        let value: u16 = u16::from_le_bytes(u16_bytes);
+        let value: u16 = match self.endian {
+            Endian::Little => u16::from_le_bytes(u16_bytes),
+            Endian::Big => u16::from_be_bytes(u16_bytes),
+        };
+        self.index = index_offset;
+        Ok(value)
+    }
+
+    /// # Errors
+    ///
+    /// Will return an error if there are not enough bytes to read.
+    pub fn read_i16(&mut self) -> ByteReaderResult<i16> {
+        let index_offset: usize = self.index + 2;
+        if index_offset > self.data.len() {
+            return Err(ByteReaderError::NotEnoughBytes {
+                index_offset,
+                buffer_length: self.data.len(),
+            });
+        }
+
+        let i16_bytes: [u8; 2] = self.data[self.index..index_offset]
+            .try_into()
+            .map_err(|_| ByteReaderError::SliceConversionFailure)?;
+        let value: i16 = match self.endian {
+            Endian::Little => i16::from_le_bytes(i16_bytes),
+            Endian::Big => i16::from_be_bytes(i16_bytes),
+        };
         self.index = index_offset;
         Ok(value)
     }
@@ -66,7 +122,33 @@ impl<'a> ByteReader<'a> {
         let u32_bytes: [u8; 4] = self.data[self.index..index_offset]
             .try_into()
             .map_err(|_| ByteReaderError::SliceConversionFailure)?;
-        let value: u32 = u32::from_le_bytes(u32_bytes);
+        let value: u32 = match self.endian {
+            Endian::Little => u32::from_le_bytes(u32_bytes),
+            Endian::Big => u32::from_be_bytes(u32_bytes),
+        };
+        self.index = index_offset;
+        Ok(value)
+    }
+
+    /// # Errors
+    ///
+    /// Will return an error if there are not enough bytes to read.
+    pub fn read_i32(&mut self) -> ByteReaderResult<i32> {
+        let index_offset: usize = self.index + 4;
+        if index_offset > self.data.len() {
+            return Err(ByteReaderError::NotEnoughBytes {
+                index_offset,
+                buffer_length: self.data.len(),
+            });
+        }
+
+        let i32_bytes: [u8; 4] = self.data[self.index..index_offset]
+            .try_into()
+            .map_err(|_| ByteReaderError::SliceConversionFailure)?;
+        let value: i32 = match self.endian {
+            Endian::Little => i32::from_le_bytes(i32_bytes),
+            Endian::Big => i32::from_be_bytes(i32_bytes),
+        };
         self.index = index_offset;
         Ok(value)
     }
@@ -86,7 +168,33 @@ impl<'a> ByteReader<'a> {
         let u64_bytes: [u8; 8] = self.data[self.index..index_offset]
             .try_into()
             .map_err(|_| ByteReaderError::SliceConversionFailure)?;
-        let value: u64 = u64::from_le_bytes(u64_bytes);
+        let value: u64 = match self.endian {
+            Endian::Little => u64::from_le_bytes(u64_bytes),
+            Endian::Big => u64::from_be_bytes(u64_bytes),
+        };
+        self.index = index_offset;
+        Ok(value)
+    }
+
+    /// # Errors
+    ///
+    /// Will return an error if there are not enough bytes to read.
+    pub fn read_i64(&mut self) -> ByteReaderResult<i64> {
+        let index_offset: usize = self.index + 8;
+        if index_offset > self.data.len() {
+            return Err(ByteReaderError::NotEnoughBytes {
+                index_offset,
+                buffer_length: self.data.len(),
+            });
+        }
+
+        let i64_bytes: [u8; 8] = self.data[self.index..index_offset]
+            .try_into()
+            .map_err(|_| ByteReaderError::SliceConversionFailure)?;
+        let value: i64 = match self.endian {
+            Endian::Little => i64::from_le_bytes(i64_bytes),
+            Endian::Big => i64::from_be_bytes(i64_bytes),
+        };
         self.index = index_offset;
         Ok(value)
     }
