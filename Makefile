@@ -42,8 +42,8 @@ fix: ## auto-fixes (some) linter issues
 .PHONY: publish_dry_run
 publish_dry_run: ## dry run of publishing libraries to crates.io and JSR
 	echo "\033[1;35m[Packaging Rust]\033[0m"
-	cargo publish --dry-run
-	cargo package --list
+	cargo publish --dry-run --allow-dirty
+	cargo package --list --allow-dirty
 	echo "\033[1;35m[Packaging Typescript]\033[0m"
 	deno publish --dry-run --allow-dirty
 	echo "\033[1;35m[Finished Dry-Run Publish]\033[0m"
