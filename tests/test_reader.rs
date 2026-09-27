@@ -17,19 +17,20 @@ pub fn get_payload_bytes(filename: &str) -> Vec<u8> {
     path.push("test-cases");
     path.push(filename);
 
-    let file: File = File::open(&path).unwrap_or_else(|_| panic!("Failed to open file: {path:?}"));
+    let file: File =
+        File::open(&path).unwrap_or_else(|_| panic!("Failed to open file: {}", path.display()));
     let reader: BufReader<File> = BufReader::new(file);
     let line: String = reader
         .lines()
         .next()
-        .unwrap_or_else(|| panic!("File is empty: {path:?}"))
-        .unwrap_or_else(|_| panic!("Failed to read line from file: {path:?}"));
+        .unwrap_or_else(|| panic!("File is empty: {}", path.display()))
+        .unwrap_or_else(|_| panic!("Failed to read line from file: {}", path.display()));
 
     line.split(' ')
         .map(|s| {
-            s.trim()
-                .parse()
-                .unwrap_or_else(|_| panic!("Failed to parse '{s}' as u8 in file: {path:?}"))
+            s.trim().parse().unwrap_or_else(|_| {
+                panic!("Failed to parse '{s}' as u8 in file: {}", path.display())
+            })
         })
         .collect()
 }
