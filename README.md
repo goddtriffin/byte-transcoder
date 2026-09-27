@@ -33,7 +33,7 @@ Can manually specify endianness.
 
 ## Examples
 
-Read `examples/`, `tests/`, and `src-ts/**/*.test.ts` for more examples!
+Read `byte_transcoder/examples/`, `byte_transcoder/tests/`, and `src-ts/**/*.test.ts` for more examples!
 
 ### ByteReader
 

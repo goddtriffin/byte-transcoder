@@ -31,9 +31,8 @@
     ".idea",
     ".vscode",
     "docs",
-    "src",
+    "byte_transcoder",
     "target",
-    "tests",
     ".clippy.toml",
     "Cargo*",
     "Makefile"
