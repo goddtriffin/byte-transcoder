@@ -13,7 +13,9 @@ use uuid::Uuid;
 /// Panics if the file does not exist, is empty, or if a line cannot be read from the file.
 #[must_use]
 pub fn get_payload_bytes(filename: &str) -> Vec<u8> {
+    // test-cases/ lives at the workspace root, shared with the Deno tests.
     let mut path: PathBuf = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    path.pop();
     path.push("test-cases");
     path.push(filename);
 
