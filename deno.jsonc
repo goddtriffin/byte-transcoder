@@ -33,7 +33,6 @@
     "docs",
     "byte_transcoder",
     "target",
-    ".clippy.toml",
     "Cargo*",
     "Makefile"
   ]

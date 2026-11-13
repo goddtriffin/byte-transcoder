@@ -3,9 +3,9 @@ members = ["byte_transcoder"]
 resolver = "3"
 
 [workspace.package]
-version = "0.0.6"
+version = "0.0.7"
 edition = "2024"
-rust-version = "1.85"
+rust-version = "1.100"
 authors = ["Todd Everett Griffin <tgriffin115@gmail.com>"]
 readme = "README.md"
 repository = "https://github.com/goddtriffin/byte-transcoder-rs"
@@ -20,13 +20,14 @@ categories = [
   "compression",
   "data-structures",
 ]
-include = ["**/*.rs", "Cargo.toml", ".clippy.toml", "LICENSE", "README.md"]
+include = ["**/*.rs", "Cargo.toml", "LICENSE", "README.md"]
 
 [workspace.lints.rust]
 unsafe_code = { level = "forbid", priority = 0 }
+unfulfilled_lint_expectations = { level = "forbid", priority = 1 }
+unused = { level = "deny", priority = -1 }
 
 [workspace.lints.clippy]
-nursery = { level = "allow", priority = 1 }
 all = { level = "deny", priority = -1 }
 correctness = { level = "deny", priority = -1 }
 suspicious = { level = "deny", priority = -1 }
@@ -35,6 +36,16 @@ complexity = { level = "deny", priority = -1 }
 perf = { level = "deny", priority = -1 }
 pedantic = { level = "deny", priority = -1 }
 cargo = { level = "deny", priority = -1 }
+nursery = { level = "allow", priority = 0 }
+allow_attributes = { level = "forbid", priority = 1 }
+multiple_crate_versions = { level = "allow", priority = 1 }
+
+[workspace.lints.cargo]
+correctness = { level = "deny", priority = -1 }
+suspicious = { level = "deny", priority = -1 }
+style = { level = "deny", priority = -1 }
+pedantic = { level = "deny", priority = -1 }
+manual_readme = { level = "allow", priority = 1 }
 
 [workspace.dependencies]
-uuid = "1.16.0"
+uuid = "1.29.2"

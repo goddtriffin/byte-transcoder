@@ -22,6 +22,7 @@ help: # Prints out help
 .PHONY: lint
 lint: ## lints the codebase
 	cargo fmt
+	cargo clippy --workspace --all-targets --all-features -- -D warnings
 	deno lint ./src-ts/**/*.ts
 	deno doc --lint ./src-ts/**/*.ts
 	deno fmt ./src-ts/**/*.ts
@@ -30,14 +31,14 @@ lint: ## lints the codebase
 test: ## runs tests
 	cargo fmt --check
 	cargo check
-	cargo clippy --tests
+	cargo clippy --workspace --all-targets --all-features -- -D warnings
 	cargo test
 	deno test --allow-read
 
 .PHONY: fix
 fix: ## auto-fixes (some) linter issues
 	cargo fix --allow-dirty --allow-staged
-	cargo clippy --fix --allow-dirty --allow-staged
+	cargo clippy --workspace --all-targets --all-features --fix --allow-dirty --allow-staged
 
 .PHONY: publish_dry_run
 publish_dry_run: ## dry run of publishing libraries to crates.io and JSR

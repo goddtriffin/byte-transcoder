@@ -1,12 +1,11 @@
 use byte_transcoder::{endian::Endian, reader::ByteReader, reader_error::ByteReaderResult};
 use uuid::Uuid;
 
-#[allow(dead_code)]
 #[derive(Debug)]
 pub struct Payload {
-    game_id: Uuid,
-    join_code: String,
-    lobby: Vec<Account>,
+    pub game_id: Uuid,
+    pub join_code: String,
+    pub lobby: Vec<Account>,
 }
 
 #[derive(Debug)]
